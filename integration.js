@@ -4,20 +4,19 @@ const {
 } = require('polarity-integration-utils');
 
 const { validateOptions } = require('./server/userOptions');
-const { getFiles } = require('./server/queries');
+const { getSearchResults } = require('./server/queries');
 const assembleLookupResults = require('./server/assembleLookupResults');
-const onMessageFunctions = require('./server/onMessage');
 
 const doLookup = async (entities, options, cb) => {
   const Logger = getLogger();
   try {
     Logger.debug({ entities }, 'Entities');
 
-    const files = await getFiles(entities, options);
+    const searchResults = await getSearchResults(entities, options);
 
-    Logger.trace({ files });
+    Logger.trace({ searchResults });
 
-    const lookupResults = assembleLookupResults(entities, files, options);
+    const lookupResults = assembleLookupResults(entities, searchResults, options);
 
     Logger.trace({ lookupResults }, 'Lookup Results');
 
@@ -31,12 +30,8 @@ const doLookup = async (entities, options, cb) => {
 };
 
 
-const onMessage = ({ action, data: actionParams }, options, callback) =>
-  onMessageFunctions[action](actionParams, options, callback);
-
 module.exports = {
   startup: setLogger,
   validateOptions,
-  onMessage,
   doLookup
 };

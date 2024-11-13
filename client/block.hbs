@@ -1,588 +1,340 @@
-{{#if file.needsToBeScanned}}
-  <div class="mt-2">
-    <div class="alert alert-info text-info-block">This File Hash has yet to be scanned by Intezer.
-
-Scanning allows you to submit this hash to Intezer for Analysis.</div>
-
-    {{#if scanFileHashErrorMessage}}
-      <div class="alert alert-danger mt-1">
-        {{scanFileHashErrorMessage}}
-      </div>
-    {{/if}}
-
-    <button
-      type="button"
-      class="p-btn btn btn-sm btn-secondary scan-refresh-btn mt-2"
-      {{action "scanFileHash"}}
-      disabled={{or scanningFileHash scanFileHashErrorMessage}}
-    >
-      {{#if scanningFileHash}}
-        Analyzing
-        {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
-      {{else}}
-        Scan Hash
+<div class="results">
+  {{#each searchResult as |result resultIndex|}}
+    <div class="mb-2">
+      <h1 class="p-title">
+        {{or result.name result.cveUid}}
+      </h1>
+      {{#if (not (or result.email result.cveUid))}}
+        <div class="mb-1">
+          <a href="{{block.userOptions.url}}/inventory/devices/{{result.id}}/">
+            View Device in Armis
+            {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
+          </a>
+        </div>
       {{/if}}
-    </button>
-  </div>
-{{else if file.fileScan}}
-  <div class="mt-2">
-    {{#if (eq file.fileScan.status "failed")}}
-      <div class="alert alert-warning text-info-block">File Not Found.
-
-This File Hash was not found on Intezer during Intezer Hash Analysis.</div>
-    {{else}}
-      <div class="alert alert-info text-info-block">Hash Analysis is {{titleize (humanize (dasherize file.fileScan.status))}}.
-        
-You can get an updated status on your Scan by Refreshing. This can take a minute or so.</div>
-      {{#if refreshFileHashScanErrorMessage}}
-        <div class="alert alert-danger mt-1">
-          {{refreshFileHashScanErrorMessage}}
+      {{#if result.cveUid}}
+        <div class="mb-1">
+          <a
+            href="{{block.userOptions.url}}/entities/vulnerabilities/{{result.cveUid}}/overview/"
+          >
+            View Vulnerability in Armis
+            {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
+          </a>
         </div>
       {{/if}}
 
-      <button
-        type="button"
-        class="p-btn btn btn-sm btn-secondary scan-refresh-btn mt-2"
-        {{action "refreshFileHashScan"}}
-        disabled={{or refreshingFileHashScan refreshFileHashScanErrorMessage}}
-      >
-        {{#if refreshingFileHashScan}}
-          Refreshing
-          {{fa-icon icon="spinner-third" fixedWidth=true spin=true}}
-        {{else}}
-          Refresh
-        {{/if}}
-      </button>
-    {{/if}}
-  </div>
-{{else}}
-  <div class="header-section">
-    <ul class="nav nav-tabs mt-2 mb-2">
-      <li class="nav-item">
-        <a
-          {{action "changeTab" "file"}}
-          class="nav-link {{if (eq activeTab 'file') 'active'}}"
-        >
-          Genetic Analysis
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          {{action "changeTab" "ttps"}}
-          class="nav-link {{if (eq activeTab 'ttps') 'active'}}"
-        >
-          TTPs
-          {{#if (get getTabResultsIsRunning "ttps")}}
-            {{fa-icon icon="spinner-third" size="md" fixedWidth=true spin=true}}
-          {{/if}}
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          {{action "changeTab" "iocs"}}
-          class="nav-link {{if (eq activeTab 'iocs') 'active'}}"
-        >
-          IOCs
-          {{#if (get getTabResultsIsRunning "iocs")}}
-            {{fa-icon icon="spinner-third" size="md" fixedWidth=true spin=true}}
-          {{/if}}
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          {{action "changeTab" "behavior"}}
-          class="nav-link {{if (eq activeTab 'behavior') 'active'}}"
-        >
-          Behavior
-          {{#if (get getTabResultsIsRunning "behavior")}}
-            {{fa-icon icon="spinner-third" size="md" fixedWidth=true spin=true}}
-          {{/if}}
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          {{action "changeTab" "detections"}}
-          class="nav-link {{if (eq activeTab 'detections') 'active'}}"
-        >
-          Detect & Hunt
-          {{#if (get getTabResultsIsRunning "detections")}}
-            {{fa-icon icon="spinner-third" size="md" fixedWidth=true spin=true}}
-          {{/if}}
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="results">
-    {{#if (eq activeTab "file")}}
-      <div>
-        {{#if file.analysis_url}}
-          <div class="mb-1">
-            <a href="{{file.analysis_url}}/genetic-analysis">
-              View Analysis in Intezer
-              {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-            </a>
+      {{#if result.tags}}
+        <div class="tags">
+          {{#each result.tags as |tag|}}
+            <span class="tag">{{tag}}</span>
+          {{/each}}
+        </div>
+      {{/if}}
+      {{#if result.threatTags}}
+        <div class="tags">
+          {{#each result.threatTags as |tag|}}
+            <span class="tag">{{tag}}</span>
+          {{/each}}
+        </div>
+      {{/if}}
+
+      {{#if result.riskLevel}}
+        <div>
+          <span class="p-key">Risk Score:</span>
+          <span
+            class="p-value risk-score
+              {{if (lte result.riskLevel 10) 'green'}}{{if
+                (and (gt result.riskLevel 10) (lt result.riskLevel 80))
+                'yellow'
+              }}{{if (and (gte result.riskLevel 80) (lt result.riskLevel 100)) 'red'}}{{if
+                (eq result.riskLevel 100)
+                'dark-red'
+              }}"
+          >{{#if (lte result.riskLevel 10)}}Low{{else if
+              (and (gt result.riskLevel 10) (lt result.riskLevel 80))
+            }}Medium{{else if
+              (and (gte result.riskLevel 80) (lt result.riskLevel 100))
+            }}High{{else if (eq result.riskLevel 100)}}Critical{{else}}Unknown{{/if}}
+            ({{result.riskLevel}})</span>
+        </div>
+      {{/if}}
+
+      {{#if result.email}}
+        <div>
+          <span class="p-key">Email:</span>
+          <span class="p-value">{{result.email}}</span>
+        </div>
+      {{/if}}
+      {{#if result.username}}
+        <div>
+          <span class="p-key">Username:</span>
+          <span class="p-value">{{result.username}}</span>
+        </div>
+      {{/if}}
+      {{#if result.phone}}
+        <div>
+          <span class="p-key">Phone Number:</span>
+          <span class="p-value">{{result.phone}}</span>
+        </div>
+      {{/if}}
+      {{#if result.properties}}
+        {{#if result.properties.title}}
+          <div>
+            <span class="p-key">Title:</span>
+            <span class="p-value">{{result.properties.title}}</span>
           </div>
         {{/if}}
+        {{#if result.properties.department}}
+          <div>
+            <span class="p-key">Department:</span>
+            <span class="p-value">{{result.properties.department}}</span>
+          </div>
+        {{/if}}
+        {{#if result.properties.domain}}
+          <div>
+            <span class="p-key">Domain:</span>
+            <span class="p-value">{{result.properties.domain}}</span>
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if result.status}}
         <div>
-          <span class="verdict {{file.verdict}}">{{uppercase file.verdict}}</span>
+          <span class="p-key">Status:</span>
+          <span class="p-value">{{result.status}}</span>
         </div>
+      {{/if}}
+      {{#if result.cvssScore}}
         <div>
-          <span class="p-value">{{file.family_name}}</span>
+          <span class="p-key">CVSS Score:</span>
+          <span
+            class="p-value risk-score
+              {{if (lt result.cvssScore 4) 'green'}}{{if
+                (and (gte result.cvssScore 4) (lt result.cvssScore 7))
+                'yellow'
+              }}{{if (and (gte result.cvssScore 7) (lt result.cvssScore 10)) 'red'}}{{if
+                (eq result.cvssScore 10)
+                'dark-red'
+              }}"
+          >{{#if (lt result.cvssScore 4)}}Low{{else if
+              (and (gte result.cvssScore 4) (lt result.cvssScore 7))
+            }}Medium{{else if
+              (and (gte result.cvssScore 7) (lt result.cvssScore 10))
+            }}High{{else if (eq result.cvssScore 10)}}Critical{{else}}Unknown{{/if}}
+            ({{result.cvssScore}})</span>
         </div>
-        <h1 class="p-title">
-          {{fa-icon icon="file" class="icon" fixedWidth=true}}
-          File Metadata
-        </h1>
+      {{/if}}
+      {{#if result.avmRating}}
         <div>
-          <div class="tags">
-            {{#each metadata.indicators as |tag|}}
-              <span class="tag">{{tag.name}}</span>
+          <span class="p-key">AMV Rating:</span>
+          <span
+            class="p-value risk-score
+              {{if (eq result.avmRating 'LOW') 'green'}}{{if
+                (eq result.avmRating 'MEDIUM')
+                'yellow'
+              }}{{if (eq result.avmRating 'HIGH') 'red'}}{{if
+                (eq result.avmRating 'CRITICAL')
+                'dark-red'
+              }}"
+          >{{titleize (humanize (dasherize result.avmRating))}}</span>
+        </div>
+      {{/if}}
+      {{#if result.earlyWarningType}}
+        <div>
+          <span class="p-key">Early Warning Type:</span>
+          <span class="p-value">{{join ", " result.earlyWarningType}}</span>
+        </div>
+      {{/if}}
+      {{#if result.severity}}
+        <div>
+          <span class="p-key">Severity:</span>
+          <span class="p-value">{{result.severity}}</span>
+        </div>
+      {{/if}}
+      {{#if result.description}}
+        <div>
+          <span class="p-key">Description:</span>
+          <span class="p-value">{{result.description}}</span>
+        </div>
+      {{/if}}
+      {{#if result.numOfExploits}}
+        <div>
+          <span class="p-key">Number Of Exploits:</span>
+          <span class="p-value">{{result.numOfExploits}}</span>
+        </div>
+      {{/if}}
+
+      {{#if result.businessImpact}}
+        <div>
+          <span class="p-key">Business Impact:</span>
+          <span class="p-value">{{result.businessImpact}}</span>
+        </div>
+      {{/if}}
+      {{#if result.macAddress}}
+        <div>
+          <span class="p-key">MAC Address:</span>
+          <span class="p-value">{{result.macAddress}}</span>
+        </div>
+      {{/if}}
+      {{#if result.ipAddress}}
+        <div>
+          <span class="p-key">IP Address:</span>
+          <span class="p-value">{{result.ipAddress}}</span>
+        </div>
+      {{/if}}
+      {{#if result.sensor.name}}
+        <div>
+          <span class="p-key">Access Switch:</span>
+          <span class="p-value">{{result.sensor.name}}</span>
+        </div>
+      {{/if}}
+      {{#if result.site.name}}
+        <div>
+          <span class="p-key">Site Location:</span>
+          <span class="p-value">{{result.site.name}}</span>
+        </div>
+      {{/if}}
+
+      {{#if (and (not result.email) result.name)}}
+        {{#if (get expandableTitleStates (concat "device" resultIndex))}}
+          <a
+            href="#"
+            class="expandable-title"
+            {{on "click" (action "toggleExpandableTitle" (concat "device" resultIndex))}}
+          >
+            <span class="text">Device Basics</span>
+            {{fa-icon "angle-up"}}
+          </a>
+          <div class="ml-1 mb-1">
+            {{#if result.name}}
+              <div>
+                <span class="p-key">Name:</span>
+                <span class="p-value">{{result.name}}</span>
+              </div>
+            {{/if}}
+            {{#if result.category}}
+              <div>
+                <span class="p-key">Category:</span>
+                <span class="p-value">{{result.category}}</span>
+              </div>
+            {{/if}}
+            {{#if result.type}}
+              <div>
+                <span class="p-key">Type:</span>
+                <span class="p-value">{{result.type}}</span>
+              </div>
+            {{/if}}
+            {{#if result.manufacturer}}
+              <div>
+                <span class="p-key">Brand:</span>
+                <span class="p-value">{{result.manufacturer}}</span>
+              </div>
+            {{/if}}
+            {{#if result.model}}
+              <div>
+                <span class="p-key">Model:</span>
+                <span class="p-value">{{result.model}}</span>
+              </div>
+            {{/if}}
+            {{#if result.operatingSystem}}
+              <div>
+                <span class="p-key">Operating System:</span>
+                <span class="p-value">{{result.operatingSystem}}{{#if
+                    result.operatingSystemVersion
+                  }} {{result.operatingSystemVersion}}{{/if}}</span>
+              </div>
+            {{/if}}
+            {{#if result.firstSeen}}
+              <div>
+                <span class="p-key">First Seen:</span>
+                <span class="p-value">{{moment-format
+                    result.firstSeen
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone
+                  }}</span>
+              </div>
+            {{/if}}
+            {{#if result.lastSeen}}
+              <div>
+                <span class="p-key">Last Seen:</span>
+                <span class="p-value">{{moment-format
+                    result.lastSeen
+                    "MM/DD/YYYY HH:mm:ss"
+                    timeZone=timezone
+                  }}</span>
+              </div>
+            {{/if}}
+          </div>
+        {{else}}
+          <a
+            href="#"
+            class="expandable-title"
+            {{on "click" (action "toggleExpandableTitle" (concat "device" resultIndex))}}
+          >
+            <span class="text">Device Basics</span>
+            {{fa-icon "angle-down"}}
+          </a>
+        {{/if}}
+      {{else}}
+        {{#if result.firstSeen}}
+          <div>
+            <span class="p-key">First Seen:</span>
+            <span class="p-value">{{moment-format
+                result.firstSeen
+                "MM/DD/YYYY HH:mm:ss"
+                timeZone=timezone
+              }}</span>
+          </div>
+        {{/if}}
+        {{#if result.lastSeen}}
+          <div>
+            <span class="p-key">Last Seen:</span>
+            <span class="p-value">{{moment-format
+                result.lastSeen
+                "MM/DD/YYYY HH:mm:ss"
+                timeZone=timezone
+              }}</span>
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if result.dataSources.length}}
+        {{#if (get expandableTitleStates (concat "dataSources" resultIndex))}}
+          <a
+            href="#"
+            class="expandable-title"
+            {{on
+              "click"
+              (action "toggleExpandableTitle" (concat "dataSources" resultIndex))
+            }}
+          >
+            <span class="text">Sources</span>
+            {{fa-icon "angle-up"}}
+          </a>
+          <div class="ml-1">
+            {{#each result.dataSources as |source|}}
+              {{#if source.name}}
+                <div class="mb-1">
+                  -
+                  {{source.name}}{{#if source.types}} ({{join ", " source.types}}){{/if}}
+                </div>
+              {{/if}}
             {{/each}}
           </div>
-          {{#if block.isLoadingDetails}}
-            {{fa-icon icon="spinner-third" size="md" fixedWidth=true spin=true}}
-          {{else}}
-            {{#if file.fileSize}}
-              <div>
-                <span class="p-key">Size:</span>
-                <span class="p-value">{{file.fileSize}}</span>
-              </div>
-            {{/if}}
-            {{#if metadata.sha256}}
-              <div>
-                <span class="p-key">SHA256:</span>
-                <span class="p-value">{{metadata.sha256}}</span>
-              </div>
-            {{/if}}
-            {{#if metadata.sha1}}
-              <div>
-                <span class="p-key">SHA1:</span>
-                <span class="p-value">{{metadata.sha1}}</span>
-              </div>
-            {{/if}}
-            {{#if metadata.md5}}
-              <div>
-                <span class="p-key">MD5:</span>
-                <span class="p-value">{{metadata.md5}}</span>
-              </div>
-            {{/if}}
-            {{#if metadata.ssdeep}}
-              <div>
-                <span class="p-key">ssdeep:</span>
-                <span class="p-value">{{metadata.ssdeep}}</span>
-              </div>
-            {{/if}}
-            {{#if metadata.product}}
-              <div>
-                <span class="p-key">Product:</span>
-                <span class="p-value">{{metadata.product}}</span>
-              </div>
-            {{/if}}
-            {{#if metadata.original_filename}}
-              <div>
-                <span class="p-key">Original filename:</span>
-                <span class="p-value">{{metadata.original_filename}}</span>
-              </div>
-            {{/if}}
-          {{/if}}
-        </div>
-      </div>
-    {{/if}}
-    {{#if (eq activeTab "ttps")}}
-      <div>
-        {{#if file.analysis_url}}
-          <div>
-            {{#if ttps.dynamicExecutionNotPossible}}
-              <a href="{{file.analysis_url}}/genetic-analysis">
-                View Analysis in Intezer
-                {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-              </a>
-            {{else}}
-              <a href="{{file.analysis_url}}/dynamic-ttps">
-                View TTPs in Intezer
-                {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-              </a>
-            {{/if}}
-          </div>
-        {{/if}}
-        {{#if (get getTabResultsIsRunning "ttps")}}
-          {{fa-icon icon="spinner-third" size="lg" fixedWidth=true spin=true}}
-        {{else if (or ttps.dynamicExecutionNotPossible (get getTabResultsErrorMessage "ttps"))}}
-          <div class="alert alert-danger mt-1">
-            {{#if ttps.dynamicExecutionNotPossible}}
-              Dynamic Execution is not possible for this Hash, which is required for TTPs data
-            {{else}}
-              {{get getTabResultsErrorMessage "ttps"}}
-            {{/if}}
-          </div>
         {{else}}
-          {{#if ttps.mitreAttackTechniqueDetections}}
-            <h1 class="p-title">
-              {{fa-icon icon="bug" class="icon" fixedWidth=true}}
-              MITRE ATT&CK Categories
-            </h1>
-            {{#each-in ttps.mitreAttackTechniqueDetections as |enterprise techniques|}}
-              <div class="card-container">
-                <span class="p-key">{{enterprise}}</span>
-                <span class="p-value">
-                  {{#each techniques as |technique|}}
-                    <div class="ml-2">
-                      <a href="{{technique.link}}">
-                        {{technique.name}}
-                        {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-                      </a>
-                    </div>
-                  {{/each}}
-                </span>
-              </div>
-            {{/each-in}}
-          {{/if}}
-          {{#if ttps.techniques.length}}
-            <h1 class="p-title">
-              {{fa-icon icon="info-circle" class="icon" fixedWidth=true}}
-              Technique Detection
-            </h1>
-            <div class="mt-1">
-              {{#each ttps.techniques as |ttp ttpIndex|}}
-                <div class="card-container">
-                  {{#if ttp.description}}
-                    <div>
-                      <span class="p-key">Technique:</span>
-                      <span class="p-value">{{ttp.description}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ttp.severity}}
-                    <div>
-                      <span class="p-key">Severity:</span>
-                      <span class="p-value">
-                        {{#if (eq ttp.severity 3)}}
-                          High
-                        {{else if (eq ttp.severity 2)}}
-                          Medium
-                        {{else if (eq ttp.severity 1)}}
-                          Low
-                        {{else}}
-                          Unknown
-                        {{/if}}
-                      </span>
-                    </div>
-                  {{/if}}
-                  {{#if ttp.ttps.length}}
-                    <div>
-                      <span class="p-key">MITRE ATT&CK:</span>
-                      <span class="p-value p-block">{{#each ttp.ttps as |mitreAttack|}}
-                          <div>
-                            {{mitreAttack.ttp}}
-                          </div>
-                        {{/each}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ttp.formattedData.length}}
-                    <div>
-                      {{#if (get expandableTitleStates (concat "ttpDetails" ttpIndex))}}
-                        <a
-                          href="#"
-                          class="expandable-title"
-                          {{on
-                            "click"
-                            (action
-                              "toggleExpandableTitle" (concat "ttpDetails" ttpIndex)
-                            )
-                          }}
-                        >
-                          <span class="text">Details</span>
-                          {{fa-icon "angle-up"}}
-                        </a>
-                        {{#each ttp.formattedData as |detail|}}
-                          <div>{{detail}}</div>
-                        {{/each}}
-                      {{else}}
-                        <a
-                          href="#"
-                          class="expandable-title"
-                          {{on
-                            "click"
-                            (action
-                              "toggleExpandableTitle" (concat "ttpDetails" ttpIndex)
-                            )
-                          }}
-                        >
-                          <span class="text">Details</span>
-                          {{fa-icon "angle-down"}}
-                        </a>
-                      {{/if}}
-                    </div>
-                  {{/if}}
-                </div>
-              {{/each}}
-            </div>
-          {{/if}}
+          <a
+            href="#"
+            class="expandable-title"
+            {{on
+              "click"
+              (action "toggleExpandableTitle" (concat "dataSources" resultIndex))
+            }}
+          >
+            <span class="text">Sources</span>
+            {{fa-icon "angle-down"}}
+          </a>
         {{/if}}
-      </div>
-    {{/if}}
-    {{#if (eq activeTab "iocs")}}
-      <div>
-        {{#if file.analysis_url}}
-          <div>
-            <a href="{{file.analysis_url}}/iocs">
-              View IOCs in Intezer
-              {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-            </a>
-          </div>
-        {{/if}}
-        {{#if (get getTabResultsIsRunning "iocs")}}
-          {{fa-icon icon="spinner-third" size="lg" fixedWidth=true spin=true}}
-        {{else if (get getTabResultsErrorMessage "iocs")}}
-          <div class="alert alert-danger mt-1">
-            {{get getTabResultsErrorMessage "iocs"}}
-          </div>
-        {{else}}
-          {{#if iocs.network.length}}
-            <h1 class="p-title">
-              {{fa-icon icon="wifi" class="icon" fixedWidth=true}}
-              Network IOCs
-            </h1>
-            <div class="mt-1">
-              {{#each iocs.network as |ioc|}}
-                <div class="mb-1">
-                  {{#if ioc.type}}
-                    <div>
-                      <span class="p-key">Type:</span>
-                      <span class="p-value">{{capitalize ioc.type}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ioc.ioc}}
-                    <div>
-                      <span class="p-key">IOC:</span>
-                      <span class="p-value">{{ioc.ioc}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ioc.source}}
-                    <div>
-                      <span class="p-key">Source Type:</span>
-                      <span class="p-value">
-                        {{#each ioc.source as |source sourceIndex|}}
-                          {{titleize (humanize (dasherize source))}}{{#if
-                            (not (eq (sub ioc.source.length 1) sourceIndex))
-                          }}, {{/if}}
-                        {{/each}}
-                      </span>
-                    </div>
-                  {{/if}}
-                  {{#if ioc.classification}}
-                    <div>
-                      <span class="p-key">Classification:</span>
-                      <span class="p-value">{{titleize
-                          (humanize (dasherize ioc.classification))
-                        }}</span>
-                    </div>
-                  {{/if}}
-                </div>
-              {{/each}}
-            </div>
-          {{/if}}
-          {{#if iocs.files.length}}
-            <h1 class="p-title">
-              {{fa-icon icon="file" class="icon" fixedWidth=true}}
-              File IOCs
-            </h1>
-            <div class="mt-1">
-              {{#each iocs.files as |ioc|}}
-                <div class="card-container">
-                  {{#if ioc.sha256}}
-                    <div>
-                      <span class="p-key">SHA256:</span>
-                      <span class="p-value">{{capitalize ioc.sha256}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ioc.path}}
-                    <div>
-                      <span class="p-key">Path:</span>
-                      <span class="p-value">{{ioc.path}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ioc.type}}
-                    <div>
-                      <span class="p-key">Type:</span>
-                      <span class="p-value">{{titleize
-                          (humanize (dasherize ioc.type))
-                        }}</span>
-                    </div>
-                  {{/if}}
-                  {{#if ioc.verdict}}
-                    <div>
-                      <span class="p-key">Classification:</span>
-                      <span class="p-value">
-                        {{capitalize ioc.verdict}}
-                        {{#if ioc.family}}
-                          ({{ioc.family}})
-                        {{/if}}
-                      </span>
-                    </div>
-                  {{/if}}
-                </div>
-              {{/each}}
-            </div>
-          {{/if}}
-        {{/if}}
-      </div>
-    {{/if}}
-    {{#if (eq activeTab "behavior")}}
-      <div>
-        {{#if file.analysis_url}}
-          <div>
-            {{#if behavior.dynamicExecutionNotPossible}}
-              <a href="{{file.analysis_url}}//genetic-analysis">
-                View Analysis in Intezer
-                {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-              </a>
-            {{else}}
-              <a href="{{file.analysis_url}}/behavior">
-                View Behavior in Intezer
-                {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-              </a>
-            {{/if}}
-          </div>
-        {{/if}}
-        {{#if (get getTabResultsIsRunning "behavior")}}
-          {{fa-icon icon="spinner-third" size="lg" fixedWidth=true spin=true}}
-        {{else if (or behavior.dynamicExecutionNotPossible (get getTabResultsErrorMessage "behavior"))}}
-          <div class="alert alert-danger mt-1">
-            {{#if ttps.dynamicExecutionNotPossible}}
-              Dynamic Execution is not possible for this Hash, which is required for Behavior data
-            {{else}}
-              {{get getTabResultsErrorMessage "behavior"}}
-            {{/if}}
-          </div>
-        {{else}}
-          {{#if behavior.screenshots.length}}
-            <div class="mt-2">
-              {{#if (get expandableTitleStates "behaviorScreenshots")}}
-                <a
-                  href="#"
-                  class="expandable-title mb-1"
-                  {{on "click" (action "toggleExpandableTitle" "behaviorScreenshots")}}
-                >
-                  <span class="text">Screenshots</span>
-                  {{fa-icon "angle-up"}}
-                </a>
-                {{#each behavior.screenshots as |screenshotLink|}}
-                  <div class="mb-2">
-                    <img src="{{screenshotLink}}" />
-                  </div>
-                {{/each}}
-              {{else}}
-                <a
-                  href="#"
-                  class="expandable-title"
-                  {{on "click" (action "toggleExpandableTitle" "behaviorScreenshots")}}
-                >
-                  <span class="text">Screenshots</span>
-                  {{fa-icon "angle-down"}}
-                </a>
-              {{/if}}
-            </div>
-          {{/if}}
-          {{#if behavior.processTreeWithTabs.length}}
-            <h1 class="p-title">
-              {{fa-icon icon="code-branch" class="icon" fixedWidth=true}}
-              Process Tree
-            </h1>
-            <div class="processes mt-1">
-              {{#each behavior.processTreeWithTabs as |process|}}
-                <div class="process ml-{{process.numberOfTabs}}">
-                  <div class="process-name">{{process.name}}</div>
-                  <div class="command-id">{{process.process_id}}
-                    |
-                    {{process.command}}</div>
-                </div>
-              {{/each}}
-            </div>
-          {{/if}}
-        {{/if}}
-      </div>
-    {{/if}}
-    {{#if (eq activeTab "detections")}}
-      <div>
-        {{#if file.analysis_url}}
-          <div>
-            {{#if detections.dynamicExecutionNotPossible}}
-              <a href="{{file.analysis_url}}//genetic-analysis">
-                View Analysis in Intezer
-                {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-              </a>
-            {{else}}
-              <a href="{{file.analysis_url}}/detect-hunt">
-                View Detect & Hunt in Intezer
-                {{fa-icon icon="external-link" class="external-link" fixedWidth=true}}
-              </a>
-            {{/if}}
-          </div>
-        {{/if}}
-        {{#if (get getTabResultsIsRunning "detections")}}
-          {{fa-icon icon="spinner-third" size="lg" fixedWidth=true spin=true}}
-        {{else if (or detections.dynamicExecutionNotPossible (get getTabResultsErrorMessage "detections"))}}
-          <div class="alert alert-danger mt-1">
-            {{#if ttps.dynamicExecutionNotPossible}}
-              Dynamic Execution is not possible for this Hash, which is required for Detect & Hunt data
-            {{else}}
-              {{get getTabResultsErrorMessage "detections"}}
-            {{/if}}
-          </div>
-        {{else}}
-          {{#if detections.detectOpps.length}}
-            <h1 class="p-title">
-              {{fa-icon icon="signature" class="icon" fixedWidth=true}}
-              Activity-based Detection Opps
-              <span>({{detections.detectOpps.length}})</span>
-            </h1>
-            <div class="mt-1">
-              {{#each detections.detectOpps as |detection|}}
-                <div class="card-container">
-                  {{#if detection.type}}
-                    <div>
-                      <span class="p-key">Artifact Type:</span>
-                      <span class="p-value">{{detection.type}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if detection.value}}
-                    <div>
-                      <span class="p-key">Artifact:</span>
-                      <span class="p-value">{{#if detection.valueIsArray}}{{join
-                            " -> "
-                            detection.value
-                          }}{{else}}{{detection.value}}{{/if}}</span>
-                    </div>
-                  {{/if}}
-                  {{#if detection.source}}
-                    <div>
-                      <span class="p-key">Source:</span>
-                      <span class="p-value">{{titleize
-                          (humanize (dasherize detection.source))
-                        }}</span>
-                    </div>
-                  {{/if}}
-                  {{#if detection.families.length}}
-                    <div>
-                      <span class="p-key">Seen In:</span>
-                      <span class="p-value">{{#each
-                          detection.families
-                          as |family familyIndex|
-                        }}
-                          {{family.family_name}}{{#if
-                            (not (eq (sub detection.families.length 1) familyIndex))
-                          }}, {{/if}}
-                        {{/each}}</span>
-                    </div>
-                  {{/if}}
-                </div>
-              {{/each}}
-            </div>
-          {{else}}
-            No Detections Found
-          {{/if}}
-        {{/if}}
-      </div>
-    {{/if}}
-  </div>
-{{/if}}
+      {{/if}}
+    </div>
+  {{/each}}
+</div>

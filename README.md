@@ -1,21 +1,17 @@
 # Polarity - Armis Integration
 
-TODO
+Armis is a cyber exposure management platform, protects the entire attack surface and manages the organization’s cyber risk exposure in real time.
+The Polarity Armis Integration allows you to search for Devices, Users, and Vulnerabilities in Armis directly from Polarity.
 
-For more information on Armis, please visit their [official website](https://TODO.com/).
+For more information on Armis, please visit their [official website](https://www.armis.com/).
 
-| ![Sample Overview](assets/TODO.png) | ![Sample Details](assets/TODO.png)  | ![Sample Summary](assets/TODO.png) 
-|:--------------------------------------:|:-----------------------------------:|:----------------------------------:|
-|         *Genetic Analysis Tab*         |             *TTPs Tab*              |         *IOCs Tab*         |
-|     ![ATT&CK](assets/TODO.png)     | ![IOCs](assets/TODO.png) |   ![File Check](assets/TODO.png)   
-|             *Behavior Tab*             |         *Detect & Hunt Tab*         |          *Scan New Hash*           |
 
 ## Armis Integration Options
 ### Armis API URL
 The base URL of the Armis API including the schema (i.e., https://)
 
-### API Key
-Your API Key
+### Secret Key
+Your Secret Key
 
 ## Installation Instructions
 
