@@ -1,5 +1,5 @@
-@title-color: #301946;
 @tag-color: #8338ec;
+@p-blue-grey: #607d8b;
 
 * {
   overflow-wrap: break-word !important;
@@ -8,6 +8,14 @@
 
 div.results {
   margin-top: 10px;
+}
+
+.result-container {
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
 }
 
 .p-block {
@@ -62,6 +70,7 @@ img {
   &.dark-red {
     color: rgb(140, 4, 26);
   }
+
   &.red {
     color: rgb(178, 47, 69);
   }
@@ -80,7 +89,7 @@ img {
 }
 
 .p-title {
-  font-size: 13px;
-  color: @title-color;
+  font-size: 12px;
+  color: @p-blue-grey;
   font-weight: 700;
 }
