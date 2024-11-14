@@ -28,7 +28,7 @@ module.exports = {
     {
       key: 'url',
       name: 'Armis API URL',
-      description: 'The base URL of the Armis API including the schema (i.e., https://)',
+      description: 'The base URL of the Armis API including the scheme (i.e., https://)',
       default: '',
       type: 'text',
       userCanEdit: false,
