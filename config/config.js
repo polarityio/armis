@@ -1,8 +1,8 @@
 module.exports = {
   name: 'Armis',
   acronym: 'AS',
-  description: 'TODO',
-  entityTypes: ['IPv4', 'domain'],
+  description: 'Search for Devices, Users, and Vulnerabilities in Armis',
+  entityTypes: ['IPv4', 'IPv6', 'url', 'domain', 'cve', 'email', 'MAC'],
   defaultColor: 'light-blue',
   onDemandOnly: true,
   styles: ['./client/styles.less'],
@@ -27,18 +27,17 @@ module.exports = {
   options: [
     {
       key: 'url',
-      name: 'Intezer API URL',
-      description:
-        'The base URL of the Intezer API including the schema (i.e., https://)',
-      default: 'https://analyze.intezer.com',
+      name: 'Armis API URL',
+      description: 'The base URL of the Armis API including the scheme (i.e., https://)',
+      default: '',
       type: 'text',
       userCanEdit: false,
       adminOnly: true
     },
     {
-      key: 'apiKey',
-      name: 'API Key',
-      description: 'Your API Key',
+      key: 'secretKey',
+      name: 'Secret Key',
+      description: 'Your Secret Key',
       default: '',
       type: 'password',
       userCanEdit: false,
@@ -46,4 +45,3 @@ module.exports = {
     }
   ]
 };
-  

@@ -1,5 +1,5 @@
-const getFiles = require('./getFiles');
+const getSearchResults = require('./getSearchResults');
 
 module.exports = {
-  getFiles
+  getSearchResults
 };

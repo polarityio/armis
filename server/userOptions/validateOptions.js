@@ -3,7 +3,7 @@ const { validateStringOptions, validateUrlOption } = require('./utils');
 const validateOptions = async (options, callback) => {
   const stringOptionsErrorMessages = {
     url: '* Required',
-    apiKey: '* Required'
+    secretKey: '* Required'
   };
 
   const stringValidationErrors = validateStringOptions(
@@ -13,12 +13,7 @@ const validateOptions = async (options, callback) => {
 
   const urlValidationError = validateUrlOption(options, 'url');
 
-  const autoHashScanError =
-    options.autoHashScan.value && !options.allowHashScan.value
-      ? 'Allow Hash Scan must be enabled to use Auto Hash Scan'
-      : [];
-
-  const errors = stringValidationErrors.concat(urlValidationError).concat(autoHashScanError);
+  const errors = stringValidationErrors.concat(urlValidationError);
 
   callback(null, errors);
 };
