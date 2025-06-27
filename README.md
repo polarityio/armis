@@ -1,23 +1,29 @@
 # Polarity - CYYNC Integration
 
-CYYNC is a TODO platform, that does TODO.
-The Polarity CYYNC Integration allows you to search for Assets and Forms in CYYNC directly from Polarity.
+CYYNC is a Cybersecurity Operations platform, that focuses on:
+- Capturing observations and events in real-time
+- Validating data during retrospectives
+- Identifying trends and major issues
+- Pinpointing root causes
+- Developing lessons learned.
+
+The Polarity CYYNC Integration allows you to search for Assets and Forms in CYYNC, along with their comments, directly from Polarity.
 
 For more information on CYYNC, please visit their [official website](http://cyync.com/).
 
 
 ## CYYNC Integration Options
 ### CYYNC API URL
-The base URL of the CYYNC API including the schema (i.e., https://)
+The base URL of the CYYNC API including the schema (i.e., https://) (default: https://staging.cyync.com)
 
 ### Access Token
 Your Access Token
 
 ### Workspace IDs
-Your Workspace IDs in a comma separated list.
+Your Workspace IDs in a comma separated list that you want to search.
 
-### Workspace Role IDs
-Your Workspace Role IDs in a comma separated list.
+### Role ID
+Your Workspace Role ID.
 
 ## Installation Instructions
 

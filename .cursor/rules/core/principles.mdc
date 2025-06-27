@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Guiding Principles
+
+1. **We do test-driven development, one test at a time:** 1. write a red failing test first; THEN 2. write the code and run tests until you have a green passing test; THEN 3. refactor code if needed. Commit, then move to the next test.
+2. **Micro-Milestones:** We do TDD. So you must perform work in commit-sized chunks. Optimize for easy rewinding. 
+3. **Observability:** Add excessive logging whilst working on a task. We must delete logs before a commit.
+4. **Many Small Files:** ALWAYS prefer creating new files over adding to existing ones. 
+5. **Human-readable over DRY:** we want DRY code, but not at the expense of it being human-readable.
+6. **Use JSDocs:** for new code that you write.
+
+# Code Quality & Maintenance
+7. **Dead Code Prevention:** Always delete unused code instead of hiding it. Remove unused UI components, functions, and imports completely.
+8. **File Size Management:** Keep files under 1000 lines. Split large files into focused modules.
+9. **Bloat Prevention:** Avoid creating bloated files with unnecessary complexity. Prefer simple, focused implementations.
+10. **Clean Removal:** When removing features, delete the code entirely rather than using CSS `display: none` or commenting out.
+
+# Organization & Focus
+11. **Project Structure:** Maintain clear file organization and update project documentation regularly.
+12. **Context Preservation:** Use Build.md, Task.md, and PageList.md to maintain project focus and prevent getting lost in details.
+13. **Memory Management:** Implement proper memory systems to prevent forgetting important context and decisions.
+14. **Goal Tracking:** Regularly reference original goals to prevent scope creep and maintain direction.
+
+# Integration-Specific Principles
+15. **Security First:** Always validate inputs, sanitize data, and follow secure coding practices for API integrations.
+16. **Test Coverage:** Ensure comprehensive testing of entity types, API responses, and error scenarios.
+17. **Documentation:** Maintain up-to-date README.md, configuration docs, and usage examples.
+18. **CLI Tools:** Use established CLI tools and test-runner.js for validation rather than manual processes.
+
+**REMEMBER: TDD. Make everything observable. Keep files small and focused. Work in reversible increments. And write tests before code.**

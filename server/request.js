@@ -15,19 +15,41 @@ const {
   requests: { createRequestWithDefaults }
 } = require('polarity-integration-utils');
 const config = require('../config/config');
+const { DateTime } = require('luxon');
+const NodeCache = require('node-cache');
+const tokenCache = new NodeCache();
+
+const requestForAuth = createRequestWithDefaults({
+  config,
+  roundedSuccessStatusCodes: [200],
+  requestOptionsToOmitFromLogsKeyPaths: [
+    'headers.Authorization',
+    'form.secret_key',
+    'body.data.access_token'
+  ],
+  postprocessRequestFailure: (error) => {
+    error.message = `Authentication Failed: Check Credentials and Try Again - (${error.status})`;
+
+    throw error;
+  }
+});
 
 const requestWithDefaults = createRequestWithDefaults({
   config,
   roundedSuccessStatusCodes: [200],
   requestOptionsToOmitFromLogsKeyPaths: ['headers.Authorization', 'form.secret_key'],
-  preprocessRequestOptions: async ({ route, options, ...requestOptions }) => ({
-    ...requestOptions,
-    url: `${options.url}/api/v1/${route}`,
-    headers: {
-      Authorization: `Bearer ${options.accessToken}`
-    },
-    json: true
-  }),
+  preprocessRequestOptions: async ({ route, options, ...requestOptions }) => {
+    const token = await getAuthToken(options);
+
+    return {
+      ...requestOptions,
+      url: `${options.url}/api/v1/${route}`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      json: true
+    };
+  },
   postprocessRequestFailure: (error) => {
     const errorResponseBody = JSON.parse(error.description);
     error.message = `${error.message} - (${error.status})${
@@ -39,6 +61,36 @@ const requestWithDefaults = createRequestWithDefaults({
     throw error;
   }
 });
+
+const getAuthToken = async ({ url, secretKey }) => {
+  const cachedToken = tokenCache.get(secretKey);
+  if (cachedToken) return cachedToken;
+
+  const { access_token, expiration_utc } = get(
+    'body.data',
+    await requestForAuth({
+      method: 'POST',
+      url: `${url}/api/v1/access_token/`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      form: { secret_key: secretKey },
+      json: true
+    })
+  );
+
+  const tokenResetSeconds =
+    Math.abs(
+      Math.round(
+        DateTime.utc().diff(DateTime.fromISO(expiration_utc, { zone: 'utc' }), 'seconds')
+          .seconds
+      )
+    ) - 10;
+
+  tokenCache.set(secretKey, access_token, tokenResetSeconds);
+
+  return access_token;
+};
 
 const createRequestsInParallel =
   (requestWithDefaults) =>

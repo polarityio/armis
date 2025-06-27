@@ -1,0 +1,62 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Polarity Integration Development & CLI Workflows
+
+## Terminal Command Execution
+
+- **CRITICAL:** 
+- Avoid newline characters (`\n`) within *single arguments* or *strings* passed to the terminal tool. This prevents parsing errors.
+- Avoid pagers by using `| cat` or `| tee` (for example, `docker logs polarity-integration | cat`).
+
+**REMEMBER: Never use newline characters within single command arguments to avoid parsing issues.**
+
+## Polarity Integration Development Workflows
+
+### Project Initialization & Setup
+- **Method:** Use established CLI tools for Polarity integration development.
+- **Examples:**
+    - `npm init` for new integration package.json
+    - `npm install --save-dev jest` for testing framework
+    - `npm install --save axios` for HTTP requests
+    - `npm install --save joi` for input validation
+
+### Integration Testing & Development
+- **Test Runner:** Use `node test-runner.js` for manual integration testing
+- **Docker Management:** Use Docker CLI for Polarity container operations
+- **TypeScript:** Use `tsc --watch` for TypeScript compilation during development
+
+### Local Development with npm Linking
+- **Setup Local Package:** Use `npm link` in your integration directory to create a global symlink
+- **Link to Polarity:** Use `npm link your-integration-name` in Polarity's node_modules
+- **Build Process:** Always run `npm run build` or `tsc` after TypeScript changes
+- **Package Updates:** Update package.json version and run `npm install` to refresh links
+- **Unlink:** Use `npm unlink` when switching to production deployment
+
+### Integration CLI Testing Scripts
+- **Test Runner Creation:** Create `test-runner.js` in integration root for isolated testing
+- **Entity Testing:** Test with various entity types (IPv4, domain, hash, email, URL)
+- **API Testing:** Use `curl` or `httpie` for direct API endpoint testing
+- **Log Analysis:** Use `tail -f integration.log` for real-time log monitoring
+
+### Docker & Container Management
+- **Container Operations:** Use `docker-compose` for Polarity stack management
+- **Integration Deployment:** Use `docker cp` for copying integration files to containers
+- **Log Access:** Use `docker logs` with `| cat` to avoid pager issues
+- **Volume Management:** Use `docker volume` commands for persistent data
+
+### Development Tools & Scripts
+- **Linting:** Use `eslint` for code quality checks
+- **Formatting:** Use `prettier` for consistent code formatting
+- **Type Checking:** Use `tsc --noEmit` for TypeScript validation
+- **Package Management:** Use `npm audit` for security vulnerability checks
+
+### Integration-Specific Commands
+- **Template Testing:** Use Handlebars CLI tools for template validation
+- **Schema Validation:** Use JSON schema validation tools for config testing
+- **API Documentation:** Use tools like `swagger-codegen` for API client generation
+- **Security Scanning:** Use `npm audit` and `snyk test` for dependency security
+
+**REMEMBER: Always use established CLI tools for Polarity integration development rather than manual configuration. Focus on testing, building, and deployment workflows specific to the integration framework.**

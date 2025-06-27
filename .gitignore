@@ -37,3 +37,5 @@ key/
 .histoy
 *.vscode
 .vscode
+
+.cursor/docs/CYYNC API.postman_collection.json

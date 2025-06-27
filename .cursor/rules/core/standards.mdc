@@ -1,0 +1,55 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Git Practices
+
+- **Commit Messages:** ALWAYS use `fix:`, `feat:`, `refactor:`, `test:`, or `chore:` prefixes.
+- **Verification:** NEVER use `--no-verify` or bypass pre-commit hooks.
+- **Pushing Code:** NEVER push failing tests to the repository.
+- **Avoid Interactive:** NEVER use `git rebase --continue`, `git commit --amend`, or other interactive commands. You do not have access to the interactive terminal.
+**REMEMBER: Use semantic commit prefixes, respect pre-commit hooks, ensure tests pass before pushing, and avoid interactive git commands.**
+
+# Testing Standards
+
+- **Execution:** Always run tests in single-run mode (no watch mode).
+- **Failure:** Prefer to fail-fast (e.g., "bail=1" or equivalent).
+
+**REMEMBER: Run tests in single-run mode and configure them to fail fast on first error.**
+
+# Package Managers
+
+- **Default:** Use `npm` unless explicitly specified otherwise.
+
+**REMEMBER: Always use npm as the default package manager for all operations.**
+
+# Rule Management Standards
+
+- **File Extensions:** Always use `.mdc` extension for Cursor rules.
+- **Always Apply:** Mark core rules with `alwaysApply: true` for consistent behavior.
+- **Glob Patterns:** Use specific glob patterns to target relevant files and directories.
+- **Rule Organization:** Group related rules in logical folder structures with index files.
+
+# Memory System Standards
+
+- **Context Preservation:** Always store important decisions and patterns in `.cursor/docs/memory/`.
+- **Rule Dependencies:** Reference other rules using `@rule-name.mdc` syntax.
+- **Version Control:** Commit rule changes with semantic prefixes for tracking.
+- **Documentation:** Maintain up-to-date rule documentation and changelogs.
+
+# Integration Development Standards
+
+- **Security First:** Always validate inputs and follow secure coding practices.
+- **Test Coverage:** Ensure comprehensive testing of all entity types and API interactions.
+- **Documentation:** Maintain README.md, configuration docs, and usage examples.
+- **CLI Tools:** Use established CLI tools and test-runner.js for validation.
+
+# Code Quality Standards
+
+- **File Size:** Keep files under 1000 lines to prevent bloat and complexity.
+- **Dead Code:** Always delete unused code instead of hiding it with CSS or comments.
+- **Clean Removal:** Remove features entirely rather than using `display: none` or commenting out.
+- **Organization:** Maintain clear file structure and update project documentation regularly.
+
+**REMEMBER: Follow all standards consistently, maintain security practices, and use established tools for validation.**

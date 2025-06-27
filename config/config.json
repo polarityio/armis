@@ -2,7 +2,7 @@
   "polarityIntegrationUuid": "48aaf2c0-a1da-11ef-a313-ef9ae6bd1445",
   "name": "CYYNC",
   "acronym": "CYYNC",
-  "description": "Search for Assets and Forms in CYYNC",
+  "description": "Search for Assets and Forms in CYYNC, along with their comments",
   "entityTypes": ["IPv4", "domain", "MD5", "MAC"],
   "customTypes": [
     {
@@ -29,7 +29,7 @@
       "key": "url",
       "name": "CYYNC API URL",
       "description": "The base URL of the CYYNC API including the scheme (i.e., https://)",
-      "default": "",
+      "default": "https://staging.cyync.com",
       "type": "text",
       "userCanEdit": false,
       "adminOnly": true
@@ -46,16 +46,16 @@
     {
       "key": "workspaceIds",
       "name": "Workspace IDs",
-      "description": "Your Workspace IDs in a comma separated list.",
+      "description": "Your Workspace IDs in a comma separated list that you want to search.",
       "default": "",
       "type": "text",
       "userCanEdit": false,
       "adminOnly": true
     },
     {
-      "key": "workspaceRoleIds",
-      "name": "Workspace Role IDs",
-      "description": "Your Workspace Role IDs in a comma separated list.",
+      "key": "roleId",
+      "name": "Role ID",
+      "description": "The Workspace Role ID.",
       "default": "",
       "type": "text",
       "userCanEdit": false,
