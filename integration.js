@@ -4,6 +4,7 @@ const {
 } = require('polarity-integration-utils');
 
 const { validateOptions } = require('./server/userOptions');
+const { removePrivateIps } = require('./server/dataTransformations');
 const { getSearchResults } = require('./server/queries');
 const assembleLookupResults = require('./server/assembleLookupResults');
 
@@ -12,11 +13,15 @@ const doLookup = async (entities, options, cb) => {
   try {
     Logger.debug({ entities }, 'Entities');
 
-    const searchResults = await getSearchResults(entities, options);
+    const filteredEntities = removePrivateIps(entities);
+
+    Logger.debug({ filteredEntities }, 'Filtered Entities');
+
+    const searchResults = await getSearchResults(filteredEntities, options);
 
     Logger.trace({ searchResults });
 
-    const lookupResults = assembleLookupResults(entities, searchResults, options);
+    const lookupResults = assembleLookupResults(filteredEntities, searchResults, options);
 
     Logger.trace({ lookupResults }, 'Lookup Results');
 

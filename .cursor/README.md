@@ -18,7 +18,7 @@
 **Security Note:**
   - After updating these fields, ensure the file is marked as unchanged in git to prevent sensitive data from being tracked:
     ```bash
-    git update-index --assume-unchanged ./PRD.md
+    git update-index --assume-unchanged .cursor/docs/PRD.md
     ```
 
 ### `.cursor/rules/personal-profile.mdc` - Personal Profile Document
@@ -75,12 +75,26 @@
   - _Authentication_: Configure Bearer token authentication using the access_token variable
 
 **Security Note:**
-  - After adding the collection, ensure the file is marked as unchanged in git to prevent API credentials from being tracked:
+  - After adding the collection, ensure the file is marked as unchanged in git to prevent sensitive data from being tracked:
     ```bash
     git update-index --assume-unchanged .cursor/docs/CYYNC\ API.postman_collection.json
     ```
 
+### `.cursor/docs/partner-api.md` - Partner API Document
+**How to Obtain the Postman Collection:**
+  - _Reach out to a Team Member_: Reach out to a team member to obtain the API collection
+  - _Contact CYYNC Support_: Email support@cyync.com to request the API collection
+  - _CYYNC Sales Team_: Contact sales@cyync.com if you need API access for integration Development
 
+**Where to Place the Collection:**
+  - _File Path_: Save the collection as `partner-api.md` in the `.cursor/docs/` directory
+  - _File Structure_: Ensure the file is named exactly as specified for proper integration reference
+  - _Markdown Format_: Verify the file is in valid Markdown format and can be imported into Cursor
 
+**Security Note:**
+  - After adding the collection, ensure the file is marked as unchanged in git to prevent sensitive data from being tracked:
+    ```bash
+    git update-index --assume-unchanged .cursor/docs/partner-api.md
+    ```
 
 
