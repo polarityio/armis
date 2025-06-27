@@ -1,0 +1,71 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+SOURCE: https://github.com/wiz-sec-public/secure-rules-files/tree/main/javascript/node.js
+
+# Secure Polarity Integration Development Rules
+
+Generate secure Polarity integration code that prevents top security weaknesses. Focus on inherent safety over "secure_" prefixes. Use inline comments for security controls and assumptions.
+
+**Avoid Slopsquatting**: Verify package existence before importing. Comment on low-reputation packages.
+
+### Core Security Rules
+
+**CWE-522: Insufficiently Protected Credentials**
+- Never hardcode API keys in source files
+- Use `process.env` for sensitive configuration
+- Store secrets in config/config.json securely
+- Prevent API key exposure in logs/errors
+
+**CWE-20: Improper Input Validation**
+- Validate all entity values (IPv4, domain, hash, email, URL)
+- Use Joi/Zod/Yup for schema validation
+- Reject invalid data at earliest stage
+- Validate GraphQL queries and API responses
+
+**CWE-79: Cross-site Scripting**
+- Sanitize all untrusted data in Handlebars templates
+- Use `{{ }}` for automatic escaping
+- Use `{{{ }}}` sparingly with validated content only
+- Sanitize API responses before templating
+
+**CWE-89/94/502: Injection Flaws**
+- Use parameterized queries for API calls
+- Validate entity values before API requests
+- Never use `eval()` or `new Function()` with untrusted input
+- Avoid deserializing untrusted API data
+
+**CWE-22: Path Traversal**
+- Sanitize entity values in file operations
+- Use `path.normalize()` and `path.resolve()`
+- Verify paths stay within integration directory
+- Never use `fs.readFile` with untrusted input
+
+**CWE-200: Sensitive Information Exposure**
+- Avoid exposing system details in error messages
+- Censor API keys and PII in logs
+- Filter sensitive data from API responses
+- Don't include secrets in config.json comments
+
+**CWE-295: Improper Certificate Validation**
+- Always validate SSL/TLS certificates
+- Don't disable SSL verification for production
+- Handle certificate validation failures properly
+
+**CWE-400: Uncontrolled Resource Consumption**
+- Implement rate limiting for API calls
+- Set appropriate timeouts for requests
+- Limit response sizes to prevent memory exhaustion
+- Use connection pooling when appropriate
+
+### Polarity-Specific Security
+
+**Entity Validation**: Validate against allowed types in config.json
+**API Security**: Use HTTPS, proper auth, validate responses, handle rate limits
+**Template Security**: Use Handlebars escaping, validate data, avoid JS injection
+**Configuration**: Use env vars for secrets, validate user options, log changes
+
+### No Auto-Executable Scripts
+Do not run `chmod +x` or permission commands on script files. Let users handle permissions manually.

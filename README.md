@@ -1,17 +1,23 @@
-# Polarity - Armis Integration
+# Polarity - CYYNC Integration
 
-Armis is a cyber exposure management platform, protects the entire attack surface and manages the organization’s cyber risk exposure in real time.
-The Polarity Armis Integration allows you to search for Devices, Users, and Vulnerabilities in Armis directly from Polarity.
+CYYNC is a TODO platform, that does TODO.
+The Polarity CYYNC Integration allows you to search for Assets and Forms in CYYNC directly from Polarity.
 
-For more information on Armis, please visit their [official website](https://www.armis.com/).
+For more information on CYYNC, please visit their [official website](http://cyync.com/).
 
 
-## Armis Integration Options
-### Armis API URL
-The base URL of the Armis API including the schema (i.e., https://)
+## CYYNC Integration Options
+### CYYNC API URL
+The base URL of the CYYNC API including the schema (i.e., https://)
 
-### Secret Key
-Your Secret Key
+### Access Token
+Your Access Token
+
+### Workspace IDs
+Your Workspace IDs in a comma separated list.
+
+### Workspace Role IDs
+Your Workspace Role IDs in a comma separated list.
 
 ## Installation Instructions
 

@@ -1,12 +1,10 @@
 {
-  "name": "armis",
+  "name": "cyync",
   "version": "3.0.0",
   "main": "./integration.js",
   "private": true,
   "dependencies": {
     "async": "^3.2.6",
-    "luxon": "^3.5.0",
-    "node-cache": "^5.1.2",
     "polarity-integration-utils": "^0.1.0"
   }
 }

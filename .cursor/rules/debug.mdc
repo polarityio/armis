@@ -1,0 +1,91 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Debugging Procedures for Polarity Integration Development
+
+Use this routine for persistent errors in backend scripts, frontend servers, or integration deployment.
+
+<DIAGNOSE>
+- Gather error messages, logs, and symptoms from:
+  - Backend scripts (test-runner.js, runIocSubmissionQueries.js, test/ folder)
+  - Frontend logs (integration.log) - only for frontend components
+  - Docker container logs - only for frontend components
+  - API responses and GraphQL results
+  - File sync operations - only for frontend
+- Add context from integration files:
+  - integration.js, config/config.json, package.json
+  - templates/ and components/ - only for frontend
+  - test/ directory results
+- Check project architecture in .cursor/docs folder
+- Verify sync-and-restart-docker-polarity.js status - only for frontend
+</DIAGNOSE>
+
+- Always use <DIAGNOSE> when test results fail
+- Explain OBSERVATIONS then REASONINGS for why this is the exact issue
+- Get more OBSERVATIONS if unsure before proceeding
+- Use <ANALYZE CODE> to understand architecture patterns
+- Use <STEP BY STEP REASONING> for all possible causes
+- Look for solved patterns in @error-documentation.mdc
+- Present fix using <REASONING PRESENTATION>
+- Use <SYSTEMATIC CODE PROTOCOL> and <TESTING>
+
+<BACKEND_SCRIPT_DEBUGGING>
+For backend scripts (test-runner.js, runIocSubmissionQueries.js, test/ folder):
+- Use test-runner.js pattern for doLookup method testing
+- Check command line args and environment variables
+- Verify API endpoints and authentication
+- Review GraphQL query syntax
+- Examine file output and logs
+- Test with different entity types
+- DO NOT use sync-and-restart-docker-polarity.js
+</BACKEND_SCRIPT_DEBUGGING>
+
+<FRONTEND_SERVER_DEBUGGING>
+For frontend issues (templates, components, styles):
+- Use sync-and-restart-docker-polarity.js for file sync and container restarts
+- Check Docker container status and logs
+- Verify file synchronization
+- Review integration.log for errors
+- Test template rendering and component functionality
+- Validate configuration changes
+- Only use for frontend components (templates/, components/, styles/)
+</FRONTEND_SERVER_DEBUGGING>
+
+<INTEGRATION_DEPLOYMENT_DEBUGGING>
+For integration deployment:
+- Frontend changes: Verify sync-and-restart-docker-polarity.js execution
+- Backend changes: Use test-runner.js or similar scripts
+- Check file permissions and directory access
+- Review Docker compose config (frontend only)
+- Validate integration registration and entity type recognition
+- Test end-to-end functionality
+</INTEGRATION_DEPLOYMENT_DEBUGGING>
+
+# Context Management & Memory
+- **Memory Retrieval**: Check `.cursor/docs/memory/` for similar patterns
+- **Context Preservation**: Update memory files with new insights
+- **Pattern Recognition**: Look for recurring issues in failure-patterns.md
+- **Assumption Validation**: State explicit assumptions about APIs, dependencies, environment
+
+# Systematic Debugging Approach
+- **Checkpoint Questions**: Ask "Did we fix the problem?" and "What was our original goal?"
+- **Terminal Awareness**: Verify terminal/shell before executing commands
+- **Progressive Isolation**: Test components individually before integration
+- **Documentation Sync**: Update docs after fixing issues
+
+# Error Prevention & Recovery
+- **Pre-flight Checks**: Validate config and dependencies before testing
+- **Rollback Strategy**: Keep backups of working configs
+- **Incremental Testing**: Test small changes before large modifications
+- **Validation Prompts**: Ask "Are all lints resolved?" and "Did we address the original issue?"
+
+# Integration-Specific Debugging
+- **Entity Type Validation**: Verify entity recognition and processing
+- **API Response Analysis**: Check rate limiting, auth, data format issues
+- **Template Rendering**: Validate Handlebars syntax and data binding
+- **Component Logic**: Test client-side JavaScript functionality
+- **Configuration Validation**: Ensure config.json syntax and user options
+
+**REMEMBER: Gather complete context before fixing. Use systematic reasoning and validate assumptions.**

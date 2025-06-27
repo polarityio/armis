@@ -1,0 +1,125 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Polarity Integration Development Rules Index
+
+**Minimal rule system for efficient Polarity integration development with essential rules and documentation.**
+
+## Overview
+
+This `.cursor` folder contains a streamlined system of rules and documentation designed for Polarity integration development. The minimized system focuses on essential functionality while maintaining development quality.
+
+## Actual File Structure
+
+```
+.cursor/
+├── rules/                          # AI behavior and workflow rules  
+│   ├── index.mdc                   # This file - system overview
+│   ├── security.mdc                # Security best practices (alwaysApply: true)
+│   ├── personal-profile.mdc        # Developer preferences (alwaysApply: true)
+│   └── debug.mdc                   # Debugging procedures (alwaysApply: false)
+├── docs/                           # Project documentation
+│   ├── integration-framework.md    # Framework architecture guide
+│   ├── logging.md                  # Logging standards
+│   └── testing.md                  # Testing guidelines
+└── how-to-adapt-to-your-usecase.md # Adaptation guide
+```
+
+## Rules Reference
+
+### Core Rules (Available in Minimal)
+
+| File | Purpose | Cursor Setting | When to Use | Integration Context |
+|------|---------|----------------|-------------|-------------------|
+| **index.mdc** | System overview and navigation | `alwaysApply: false` | Reference only | Understanding the rule system |
+| **security.mdc** | Security best practices for integrations | `alwaysApply: true` | Always active | Prevents security vulnerabilities in API calls, data handling, and user input |
+| **personal-profile.mdc** | Developer preferences and experience | `alwaysApply: true` | Always active | Tailors assistance to developer's skill level and preferences |
+| **debug.mdc** | Debugging procedures and tools | `alwaysApply: false` | When debugging | Provides systematic debugging approach for integration issues |
+
+### Documentation Reference
+
+| File | Purpose | Location | When to Use | Integration Context |
+|------|---------|----------|-------------|-------------------|
+| **integration-framework.md** | Complete framework architecture guide | `docs/` | Reference during development | Understanding Polarity integration patterns |
+| **logging.md** | Logging standards and practices | `docs/` | When implementing logging | Ensures proper logging for debugging and monitoring |
+| **testing.md** | Testing guidelines and patterns | `docs/` | When writing tests | Provides testing standards for integration quality |
+| **how-to-adapt-to-your-usecase.md** | Adaptation guide | `.cursor/` | When customizing rules | Guide for adapting rules to specific use cases |
+
+## Minimized Context Strategy
+
+### Always Active Rules (Essential)
+- `security.mdc` - Prevents security issues
+- `personal-profile.mdc` - Tailors responses
+
+### On-Demand Rules (Context Efficient)
+- `debug.mdc` - Only when debugging
+- `index.mdc` - Reference only
+
+### Documentation Loading Strategy
+- `integration-framework.md` - Load when working on architecture
+- `logging.md` - Load when implementing logging  
+- `testing.md` - Load when writing tests
+- `how-to-adapt-to-your-usecase.md` - Load when customizing
+
+## Development Workflow
+
+### 1. Project Start
+- **Load**: `security.mdc`, `personal-profile.mdc`
+- **Reference**: `integration-framework.md` for architecture understanding
+- **Check**: `how-to-adapt-to-your-usecase.md` for customization needs
+
+### 2. Development Phase  
+- **Keep Active**: Core security and profile rules
+- **Reference**: `integration-framework.md` for implementation patterns
+- **Load as needed**: `testing.md`, `logging.md`
+
+### 3. Debugging Phase
+- **Activate**: `debug.mdc` for systematic debugging
+- **Reference**: `logging.md` for proper logging implementation
+
+### 4. Extension Phase
+- **Reference**: `how-to-adapt-to-your-usecase.md` for adding functionality
+- **Follow**: Full rule system patterns from Minimized version if needed
+
+## Cost Optimization
+
+**High-Value, Low-Context** (Always load):
+```
+security.mdc, personal-profile.mdc
+```
+
+**Medium-Value, Medium-Context** (Load by task):
+```
+debug.mdc
+```
+
+**High-Value, High-Context** (Load selectively):
+```
+integration-framework.md, testing.md, logging.md
+```
+
+## Usage Recommendations
+
+### For New Integration Development
+1. **Start with**: `security.mdc`, `personal-profile.mdc`
+2. **Load**: `integration-framework.md` for architecture understanding
+3. **Reference**: `testing.md` for quality standards
+
+### For Debugging
+1. **Activate**: `debug.mdc` for systematic debugging
+2. **Reference**: `logging.md` for proper logging implementation
+
+### For Extending Functionality
+1. **Check**: `how-to-adapt-to-your-usecase.md` for expansion guidance
+2. **Consider**: Full rule system from Minimized version for complex workflows
+
+## CRITICAL Reminders
+
+🚨 **ALWAYS** load core rules (`security.mdc`, `personal-profile.mdc`)
+🚨 **SELECTIVELY** load documentation based on current task
+🚨 **REFERENCE** `integration-framework.md` for Polarity patterns
+🚨 **USE** `debug.mdc` only when debugging to save context
+🚨 **CHECK** `how-to-adapt-to-your-usecase.md` before extending
+🚨 **MAINTAIN** minimal context for cost efficiency

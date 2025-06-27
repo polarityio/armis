@@ -7,7 +7,7 @@ const {
 
 const { requestsInParallel } = require('../request');
 
-const getSearchResults = async (entities, options) => {
+const getAssets = async (entities, options) => {
   const Logger = getLogger();
 
   try {
@@ -47,4 +47,4 @@ const getSearchResults = async (entities, options) => {
   }
 };
 
-module.exports = getSearchResults;
+module.exports = getAssets;

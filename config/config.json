@@ -1,9 +1,15 @@
 {
   "polarityIntegrationUuid": "48aaf2c0-a1da-11ef-a313-ef9ae6bd1445",
-  "name": "Armis",
-  "acronym": "AS",
-  "description": "Search for Devices, Users, and Vulnerabilities in Armis",
-  "entityTypes": ["IPv4", "IPv6", "url", "domain", "cve", "email", "MAC"],
+  "name": "CYYNC",
+  "acronym": "CYYNC",
+  "description": "Search for Assets and Forms in CYYNC",
+  "entityTypes": ["IPv4", "domain", "MD5", "MAC"],
+  "customTypes": [
+    {
+      "key": "allText",
+      "regex": "\\S[\\s\\S]{1,20}\\S"
+    }
+  ],
   "defaultColor": "light-blue",
   "onDemandOnly": true,
   "styles": ["./client/styles.less"],
@@ -21,19 +27,37 @@
   "options": [
     {
       "key": "url",
-      "name": "Armis API URL",
-      "description": "The base URL of the Armis API including the scheme (i.e., https://)",
+      "name": "CYYNC API URL",
+      "description": "The base URL of the CYYNC API including the scheme (i.e., https://)",
       "default": "",
       "type": "text",
       "userCanEdit": false,
       "adminOnly": true
     },
     {
-      "key": "secretKey",
-      "name": "Secret Key",
-      "description": "Your Secret Key",
+      "key": "accessToken",
+      "name": "Access Token",
+      "description": "Your Access Token",
       "default": "",
       "type": "password",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "workspaceIds",
+      "name": "Workspace IDs",
+      "description": "Your Workspace IDs in a comma separated list.",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "workspaceRoleIds",
+      "name": "Workspace Role IDs",
+      "description": "Your Workspace Role IDs in a comma separated list.",
+      "default": "",
+      "type": "text",
       "userCanEdit": false,
       "adminOnly": true
     }

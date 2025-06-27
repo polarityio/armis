@@ -1,0 +1,58 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Developer Profile
+
+## Basic Info
+- **Name:** TODO
+- **Experience:** TODO years
+- **Role:** TODO
+- **Focus:** TODO (Security integrations, Threat intelligence, Data enrichment)
+
+## Technical Skills
+
+### Languages & Frameworks
+- **JavaScript/Node.js:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **HTML/CSS:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Handlebars:** TODO (Beginner/Intermediate/Advanced/Expert)
+
+### APIs & Data
+- **REST APIs:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **GraphQL:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Security APIs:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Data enrichment:** TODO (Beginner/Intermediate/Advanced/Expert)
+
+### Polarity Integration
+- **Integration development:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Testing:** TODO (test-runner.js, unit tests)
+
+### DevOps & Tools
+- **Git:** TODO (Beginner/Intermediate/Advanced/Expert)
+
+### Security
+- **Cybersecurity:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Threat intelligence:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Secure coding:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **API security:** TODO (Beginner/Intermediate/Advanced/Expert)
+
+## Development Practices
+- **TDD:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Code review:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Documentation:** TODO (Beginner/Intermediate/Advanced/Expert)
+- **Linting/Formatting:** TODO (Beginner/Intermediate/Advanced/Expert)
+
+## Preferences
+- **Explanation level:** TODO (High-level/Detailed/Step-by-step)
+- **Code examples:** TODO (Minimal/Comprehensive/Both)
+- **Debugging style:** TODO (Systematic/Trial-and-error/Research-heavy)
+- **Feedback style:** TODO (Direct/Gentle/Both)
+
+## Current Focus
+- **Integration type:** TODO (Threat intelligence, Data enrichment, Workflow automation)
+- **Target entities:** TODO (IPv4, domain, hash, email, URL)
+- **External APIs:** TODO (List of APIs)
+- **Priorities:** TODO (Performance, security, user experience)
+
+**REMEMBER: Adjust complexity and detail based on my experience levels in each area.**
