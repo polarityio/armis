@@ -49,9 +49,9 @@ curl 'https://staging.cyync.com/api/v1/workspaces/d8e6acf3-e996-4e20-8619-8bf17d
 - `192.168.27.150` - ✅ Returns 1 result (Endpoint asset)
 - `d41d8cd98f00b204e9800998ecf8427e` - ✅ Returns 1 result (Hash reference in asset description)
 
-### 2. Forms Search ✅ ENDPOINT WORKING
+### 2. Forms Search ✅ VERIFIED WORKING
 
-**Endpoint**: `GET /workspaces/{workspace_id}/forms`
+**Endpoint**: `GET /workspaces/{workspace_id}/forms/`
 
 **Parameters**:
 - `search` (string): Search term to match against form data
@@ -61,15 +61,17 @@ curl 'https://staging.cyync.com/api/v1/workspaces/d8e6acf3-e996-4e20-8619-8bf17d
 
 **Example Request**:
 ```bash
-curl 'https://staging.cyync.com/api/v1/workspaces/d8e6acf3-e996-4e20-8619-8bf17dfe7ec1/forms?search=192.168.27.150&type=' \
+curl 'https://staging.cyync.com/api/v1/workspaces/d8e6acf3-e996-4e20-8619-8bf17dfe7ec1/forms/?search=192.168.27.150&type=' \
   -H 'Authorization: Bearer cG9sYXJpdHk6Q1ktQjNSUDBZRVJFa0dOUld2dVpYSVBHc0hwblJRdThGS0M=' \
   -H 'Role-ID: ab3f5779-6ea8-418d-bdd6-7d287cd7f78e' \
   -H 'Content-Type: application/json'
 ```
 
 **Test Results**:
-- Endpoint responds correctly but workspace currently contains 0 forms
-- Search functionality works (returns `{"count": 0, "results": []}`)
+- `192.168.27.150` - ✅ Returns 1 result ("Suspicious Activity related to 192.168.27.150")
+- `d41d8cd98f00b204e9800998ecf8427e` - No results (0 matches)
+- `attacker-c2` - No results (0 matches)
+- `Malware` - No results (0 matches)
 
 ### 3. Pages Search ✅ ENDPOINT WORKING
 
@@ -178,14 +180,15 @@ All endpoints return JSON responses with the following structure:
 ### Assets (Verified Working)
 - `192.168.27.150` ✅ - Returns endpoint asset data
 - `d41d8cd98f00b204e9800998ecf8427e` ✅ - Returns asset containing this hash
-- `attacker-c2[.]com` - Test needed
+- `attacker-c2` ✅ - Returns asset containing this domain reference
 - `203.0.113.15` - Test needed
 
-### Forms (Endpoint Working, No Data)
-- `Ms17-010` - Endpoint works, no matching data
-- `SMB` - Endpoint works, no matching data  
-- `SSL` - Endpoint works, no matching data
-- `11.12.13.14` - Endpoint works, no matching data
+### Forms (Verified Working)
+- `192.168.27.150` ✅ - Returns 1 result ("Suspicious Activity related to 192.168.27.150")
+- `Ms17-010` - No matching data
+- `SMB` - No matching data  
+- `SSL` - No matching data
+- `11.12.13.14` - No matching data
 
 ## Error Handling
 
@@ -202,10 +205,20 @@ The API may implement rate limiting. Check response headers for rate limit infor
 
 1. **Authentication**: Use Bearer token format, NOT Basic Auth
 2. **Role-ID Required**: All workspace operations require the `Role-ID` header
-3. **Search Logic**: Search is case-insensitive and searches across multiple fields
-4. **Empty Results**: Endpoints return valid responses even when no data matches
-5. **Data Availability**: Assets have data, while forms/pages/tasks may be empty in test workspace
-6. **Response Structure**: All endpoints follow consistent pagination structure
+3. **Trailing Slashes**: Forms, tasks, pages, and assets endpoints require trailing slashes
+4. **Search Logic**: Search is case-insensitive and searches across multiple fields
+5. **Empty Results**: Endpoints return valid responses even when no data matches
+6. **Data Availability**: Both assets and forms have searchable data in the test workspace
+7. **Response Structure**: All endpoints follow consistent pagination structure
+
+## Critical URL Format Notes
+
+⚠️ **IMPORTANT**: All endpoints require trailing slashes or will return 301 redirects:
+
+- ✅ **Correct**: `/workspaces/{id}/assets/`
+- ❌ **Incorrect**: `/workspaces/{id}/assets`
+- ✅ **Correct**: `/workspaces/{id}/forms/`
+- ❌ **Incorrect**: `/workspaces/{id}/forms`
 
 ## Successful API Test Summary
 
@@ -213,8 +226,10 @@ The API may implement rate limiting. Check response headers for rate limit infor
 |----------|--------|-------------|---------|
 | Assets | ✅ Working | `192.168.27.150` | 1 result |
 | Assets | ✅ Working | `d41d8cd98f00b204e9800998ecf8427e` | 1 result |
-| Forms | ✅ Working | Any search | 0 results (no forms in workspace) |
+| Assets | ✅ Working | `attacker-c2` | 1 result |
+| **Forms** | ✅ **Working** | `192.168.27.150` | **1 result** |
+| Forms | ✅ Working | `d41d8cd98f00b204e9800998ecf8427e` | 0 results |
 | Pages | ✅ Working | Any search | 0 results (no pages in workspace) |
 | Tasks | ✅ Working | Any search | 0 results (no tasks in workspace) |
 
-**All endpoints are functional and ready for integration implementation.**
+**All endpoints are functional with correct trailing slash URLs and ready for integration implementation.**
