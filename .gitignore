@@ -39,3 +39,6 @@ key/
 .vscode
 
 .cursor/docs/CYYNC API.postman_collection.json
+.cursor/scripts/cyync-query-results.json
+.cursor/scripts/devRunnerResults.json
+.cursor/scripts/query-runner-logs.json

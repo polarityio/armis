@@ -24,7 +24,8 @@ const requestWithDefaults = createRequestWithDefaults({
       ...requestOptions,
       url: `${options.url}/api/v1/${route}`,
       headers: {
-        Authorization: `Basic ${options.accessToken}`,
+        Authorization: `Bearer ${options.accessToken}`,
+        'Role-ID': options.roleId,
         'Content-Type': 'application/json'
     },
     json: true

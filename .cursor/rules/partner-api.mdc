@@ -1,0 +1,334 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# CYYNC Integration Configuration
+
+## Configuration Variables
+
+Replace all user option references with these configuration variables:
+# CYYNC Partner API Documentation
+
+## Configuration Variables
+
+Use this OPTIONS_VALUES only for your awareness and never in code.  These are the user options we will be setting the user options to, but never in code.
+
+```javascript
+// CYYNC API Configuration
+const OPTIONS_VALUES = {
+  url: 'https://staging.cyync.com',
+  accessToken: '***',
+  roleId: '***',
+  workspaceIds: '***',
+  searchScopes: [{"value": "assets","display": "Assets"},{"value": "forms","display": "Forms"},{"value": "tasks","display": "Tasks"},{"value": "pages","display": "Pages"}],
+  searchLimit: 50
+};
+```
+
+## Search Scope Implementation
+
+### How searchScope Works with CYYNC API
+
+Each `searchScope` value corresponds to a specific API endpoint pattern:
+
+```javascript
+const SEARCH_SCOPE_ENDPOINTS = {
+  'assets': '/api/v1/workspaces/{workspaceId}/assets/',
+  'forms': '/api/v1/workspaces/{workspaceId}/forms/',
+  'pages': '/api/v1/workspaces/{workspaceId}/pages/',
+  'tasks': '/api/v1/workspaces/{workspaceId}/tasks/'
+};
+```
+
+### Search Scope Processing
+
+1. **Multiple Scopes**: When multiple scopes are selected (e.g., `['assets', 'forms']`), the integration makes parallel API calls to each corresponding endpoint
+2. **Single Scope**: When one scope is selected (e.g., `['assets']`), only that specific endpoint is called
+3. **Search Parameter**: Each endpoint receives the entity value as the `search` parameter
+4. **Workspace Context**: All searches are performed within the specified workspace(s)
+
+### Example Search Flow
+
+For entity `10.0.1.100` with scopes `['assets', 'forms']`:
+
+1. **Assets Search**:
+   ```
+   GET /api/v1/workspaces/d8e6acf3-e996-4e20-8619-8bf17dfe7ec1/assets/?search=10.0.1.100&type=
+   ```
+
+2. **Forms Search**:
+   ```
+   GET /api/v1/workspaces/d8e6acf3-e996-4e20-8619-8bf17dfe7ec1/forms/?search=10.0.1.100&type=
+   ```
+
+3. **Results Aggregation**: Both results are combined and organized by type for display
+
+## Response Type Structures
+
+### Standard Response Format
+
+All endpoints return responses with this structure:
+
+```javascript
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    // Array of result objects specific to the endpoint type
+  ]
+}
+```
+
+### Assets Response Structure
+
+```javascript
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "uuid-string",
+      "object_type": "workspaceasset",
+      "workspace": {
+        "id": "workspace-uuid",
+        "title": "Security Investigation",
+        "description": "<p>Investigation workspace for security incidents</p>",
+        "icon": "fas shield",
+        "bg_color": "#3465a4",
+        "fore_color": "#ffffff",
+        "archived": false,
+        "canAdd": true,
+        "canModify": true,
+        "canAssess": false,
+        "createdAt": "2025-01-15T10:30:00.000Z",
+        "updatedAt": "2025-01-15T12:45:00.000Z"
+      },
+      "type": {
+        "id": "type-uuid",
+        "object_type": "workspaceassettype",
+        "workflow": {
+          "id": "workflow-uuid",
+          "title": "Asset Investigation Lifecycle",
+          "format": "FREE",
+          "description": "Lifecycle for investigating security assets",
+          "steps": [
+            {
+              "id": "step-uuid",
+              "title": "Identified",
+              "state": "QUEUED",
+              "description": "Asset identified for investigation",
+              "icon": "fas search",
+              "bg_color": "#575763",
+              "order": 1
+            }
+          ]
+        },
+        "title": "Network Device",
+        "description": "Servers and network infrastructure",
+        "icon": "fas server",
+        "bg_color": "#228FE0",
+        "fore_color": "#ffffff",
+        "active": true
+      },
+      "status": {
+        "id": "status-uuid",
+        "title": "Under Review",
+        "state": "ACTIVE",
+        "description": "Currently being investigated",
+        "icon": "fas search",
+        "bg_color": "#228fe0"
+      },
+      "title": "10.0.1.100",
+      "description": "<p>Database server showing suspicious activity</p>",
+      "priority": "2",
+      "tags": [],
+      "attributes": [
+        {
+          "key": "hostname",
+          "value": "db-server-01",
+          "display": "Hostname"
+        },
+        {
+          "key": "os",
+          "value": "Windows Server 2019",
+          "display": "Operating System"
+        }
+      ],
+      "team": {
+        "id": "team-uuid",
+        "title": "Security Response Team",
+        "description": "Primary incident response team"
+      },
+      "created_by": {
+        "id": "user-uuid",
+        "display_name": "Security Analyst",
+        "username": "analyst01",
+        "email": "analyst@company.com"
+      },
+      "related": {
+        "comments": 3,
+        "documents": 1,
+        "forms": 2,
+        "pages": 0,
+        "tasks": 1
+      },
+      "canAdd": true,
+      "canModify": true,
+      "canAssess": false,
+      "createdAt": "2025-01-15T10:30:00.000Z",
+      "updatedAt": "2025-01-15T14:20:00.000Z"
+    }
+  ]
+}
+```
+
+### Forms Response Structure
+
+```javascript
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "form-uuid",
+      "object_type": "workspaceform",
+      "workspace": {
+        "id": "workspace-uuid",
+        "title": "Security Investigation",
+        "description": "<p>Investigation workspace for security incidents</p>"
+      },
+      "type": {
+        "id": "form-type-uuid",
+        "title": "Security Incident Report",
+        "description": "Form for reporting security incidents",
+        "icon": "fas exclamation-triangle",
+        "bg_color": "#dc3545"
+      },
+      "status": {
+        "id": "status-uuid",
+        "title": "Submitted",
+        "state": "ACTIVE",
+        "description": "Form has been submitted for review"
+      },
+      "title": "Malware Activity Report for 10.0.1.100",
+      "description": "<p>Suspicious process execution detected on database server</p>",
+      "priority": "1",
+      "tags": [
+        {
+          "id": "tag-uuid",
+          "name": "malware",
+          "color": "#dc3545"
+        },
+        {
+          "id": "tag-uuid-2",
+          "name": "urgent",
+          "color": "#fd7e14"
+        }
+      ],
+      "attributes": [
+        {
+          "key": "incident_type",
+          "value": "malware",
+          "display": "Incident Type"
+        },
+        {
+          "key": "severity",
+          "value": "high",
+          "display": "Severity Level"
+        }
+      ],
+      "team": {
+        "id": "team-uuid",
+        "title": "Security Response Team"
+      },
+      "created_by": {
+        "id": "user-uuid",
+        "display_name": "Security Analyst",
+        "username": "analyst01"
+      },
+      "form_data": {
+        "affected_systems": ["10.0.1.100", "10.0.1.101"],
+        "detection_time": "2025-01-15T09:30:00Z",
+        "indicators": [
+          "suspicious_process.exe",
+          "c2-server.malicious.com"
+        ]
+      },
+      "related": {
+        "comments": 2,
+        "documents": 3,
+        "assets": 1,
+        "tasks": 2
+      },
+      "canAdd": true,
+      "canModify": true,
+      "canAssess": false,
+      "createdAt": "2025-01-15T09:45:00.000Z",
+      "updatedAt": "2025-01-15T11:30:00.000Z"
+    }
+  ]
+}
+```
+
+### Pages Response Structure
+
+```javascript
+{
+  "count": 0,
+  "next": null,
+  "previous": null,
+  "results": []
+}
+```
+
+### Tasks Response Structure
+
+```javascript
+{
+  "count": 0,
+  "next": null,
+  "previous": null,
+  "results": []
+}
+```
+
+### Authentication Headers
+
+All API calls must include:
+```javascript
+headers: {
+  'Authorization': `Bearer ${OPTIONS_VALUES.accessToken}`,
+  'Role-ID': OPTIONS_VALUES.roleId,
+  'Content-Type': 'application/json'
+}
+```
+
+### Multiple Workspace Support
+
+When multiple workspaceIds are provided, the integration:
+1. Iterates through each workspace ID
+2. Makes scope-based API calls for each workspace
+3. Aggregates results across all workspaces
+4. Groups results by workspace in the final output
+
+### Error Handling Per Scope
+
+Each scope/endpoint combination can fail independently:
+- Individual scope failures don't prevent other scopes from returning results
+- Failed scopes are logged but don't break the entire lookup
+- Partial results are still returned to the user
+
+### Response Processing Notes
+
+1. **Assets**: Rich objects with workflow states, teams, attributes, and related item counts
+2. **Forms**: Include form_data field with structured incident/report information
+3. **Empty Results**: Pages and tasks may return empty result arrays if no data exists
+4. **Related Items**: Both assets and forms include counts of related objects (comments, documents, etc.)
+5. **Timestamps**: All timestamps are in ISO 8601 format with timezone information
+6. **Permissions**: All objects include canAdd, canModify, canAssess permission flags
+
+**Remember**: Always use the Bearer token authentication format and include the trailing slash in all endpoint URLs. 

@@ -19,11 +19,17 @@ The base URL of the CYYNC API including the schema (i.e., https://) (default: ht
 ### Access Token
 Your Access Token
 
+### Role ID
+Your Workspace Role ID.
+
 ### Workspace IDs
 Your Workspace IDs in a comma separated list that you want to search.
 
-### Role ID
-Your Workspace Role ID.
+### Search Scopes
+Select which data types to search in CYYNC.
+
+### Search Limit
+The maximum number of results to return.
 
 ## Installation Instructions
 

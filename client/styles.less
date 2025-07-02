@@ -1,95 +1,547 @@
-@tag-color: #8338ec;
-@p-blue-grey: #607d8b;
+// TODO: CYYNC Integration Styles
+// Based on tab-based layout design and CYYNC Partner API color schemes
 
+// TODO: Define CYYNC brand colors (extract from Partner API documentation)
+@cyync-primary: #3465a4;      // Default workspace bg_color
+@cyync-secondary: #228FE0;    // Asset type bg_color example
+@cyync-success: #5ccd18;      // Keep from existing
+@cyync-warning: #fd7e14;      // Tag color example
+@cyync-danger: #dc3545;       // Form type bg_color example
+@cyync-light: #ffffff;        // Default fore_color
+@cyync-dark: #575763;         // Workflow step bg_color example
+
+// TODO: Remove Armis-specific variables
+// @tag-color: #8338ec;       // REMOVE - replace with CYYNC colors
+// @p-blue-grey: #607d8b;     // REMOVE - replace with CYYNC colors
+
+// TODO: Keep responsive text handling
 * {
   overflow-wrap: break-word !important;
   word-break: break-word !important;
 }
 
-div.results {
+// TODO: CYYNC Results Container
+.cyync-results {
   margin-top: 10px;
-}
-
-.result-container {
-  margin-bottom: 15px;
-
-  &:last-child {
-    margin-bottom: 0px;
+  
+  // TODO: Summary Tags Section
+  .summary-tags {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    .summary-tag {
+      // TODO: Style summary pills (Assets: 2, Forms: 1, etc.)
+      padding: 4px 12px;
+      border-radius: 20px;
+      background-color: @cyync-primary;
+      color: @cyync-light;
+      font-size: 12px;
+      font-weight: 500;
+      border: none;
+      
+      // TODO: Add special styling for risk/status indicators
+      &.high-risk {
+        background-color: @cyync-danger;
+      }
+      
+      &.recent {
+        background-color: @cyync-warning;
+      }
+      
+      &.active {
+        background-color: @cyync-success;
+      }
+    }
   }
-}
-
-.p-block {
-  word-wrap: break-word;
-  word-break: break-word;
-}
-
-.tags {
-  margin-bottom: 5px;
-  margin-top: 3px;
-
-  .tag {
-    margin-right: 3px;
-    border-radius: 20px;
-    border: 1px solid @tag-color;
-    padding: 3px 10px 4px 10px;
-    color: @tag-color;
-    line-height: 28px;
+  
+  // TODO: Tab Navigation
+  .result-tabs {
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 15px;
+    display: flex;
+    
+    .tab-item {
+      // TODO: Style tab buttons with counts
+      padding: 12px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: #666;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        color: @cyync-primary;
+        background-color: rgba(52, 101, 164, 0.1);
+      }
+      
+      &.active {
+        color: @cyync-primary;
+        border-bottom-color: @cyync-primary;
+        background-color: rgba(52, 101, 164, 0.05);
+      }
+      
+      &.disabled {
+        color: #ccc;
+        cursor: not-allowed;
+        
+        &:hover {
+          color: #ccc;
+          background: none;
+        }
+      }
+      
+      .tab-count {
+        margin-left: 5px;
+        font-size: 11px;
+        opacity: 0.8;
+      }
+    }
   }
-}
-
-img {
-  width: 100%;
-}
-
-.external-link {
-  font-size: 9px;
-}
-
-.expandable-title {
-  display: block;
-  color: #5ccd18 !important;
-  font-weight: 600;
-  margin-bottom: 5px;
-
-  .text {
-    color: #5ccd18 !important;
-    border-bottom: 1px solid #5ccd18;
-
-    .desc {
-      color: black !important;
-      font-weight: 400 !important;
+  
+  // TODO: Tab Content Areas
+  .tab-content {
+    
+    // TODO: Common card styling for all content types
+    .content-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: white;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        
+        .card-title {
+          font-size: 14px;
+          font-weight: 600;
+          color: #333;
+          margin: 0;
+          flex: 1;
+          
+          a {
+            color: @cyync-primary;
+            text-decoration: none;
+            
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+        
+        .card-actions {
+          display: flex;
+          gap: 8px;
+          
+          .action-button {
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            font-size: 11px;
+            cursor: pointer;
+            
+            &:hover {
+              background: #f5f5f5;
+            }
+          }
+        }
+      }
+      
+      .card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 12px;
+        
+        .meta-item {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 12px;
+          
+          .meta-label {
+            color: #666;
+            font-weight: 500;
+          }
+          
+          .meta-value {
+            color: #333;
+          }
+        }
+      }
+    }
+    
+    // TODO: Assets-specific styling
+    .assets-content {
+      .asset-card {
+        // TODO: Asset-specific card styling
+        .workspace-badge {
+          // TODO: Dynamic background from workspace.bg_color
+          padding: 2px 8px;
+          border-radius: 12px;
+          font-size: 11px;
+          font-weight: 500;
+          margin-bottom: 8px;
+          display: inline-block;
+        }
+        
+        .asset-attributes {
+          // TODO: Key-value pairs styling for attributes array
+          .attribute-row {
+            display: flex;
+            margin-bottom: 4px;
+            
+            .attr-key {
+              min-width: 120px;
+              color: #666;
+              font-size: 12px;
+              font-weight: 500;
+            }
+            
+            .attr-value {
+              color: #333;
+              font-size: 12px;
+            }
+          }
+        }
+        
+        .risk-indicator {
+          // TODO: Risk score styling from transformed asset data
+          &.risk-high {
+            color: @cyync-danger;
+          }
+          
+          &.risk-medium {
+            color: @cyync-warning;
+          }
+          
+          &.risk-low {
+            color: @cyync-success;
+          }
+        }
+      }
+    }
+    
+    // TODO: Forms-specific styling  
+    .forms-content {
+      .form-card {
+        // TODO: Form-specific card styling
+        .form-data-section {
+          // TODO: Structured display for form_data object
+          background: #f8f9fa;
+          border-radius: 4px;
+          padding: 12px;
+          margin-top: 12px;
+          
+          .form-data-item {
+            margin-bottom: 8px;
+            
+            &:last-child {
+              margin-bottom: 0;
+            }
+            
+            .data-label {
+              font-weight: 500;
+              color: #666;
+              font-size: 12px;
+              margin-bottom: 2px;
+            }
+            
+            .data-value {
+              color: #333;
+              font-size: 12px;
+              
+              &.list-value {
+                // TODO: Handle arrays like affected_systems, indicators
+                .list-item {
+                  display: inline-block;
+                  background: #e9ecef;
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                  margin-right: 4px;
+                  margin-bottom: 2px;
+                  font-size: 11px;
+                }
+              }
+            }
+          }
+        }
+        
+        .recent-indicator {
+          // TODO: Highlight recent forms
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          background: @cyync-warning;
+          color: white;
+          padding: 2px 6px;
+          border-radius: 10px;
+          font-size: 10px;
+          font-weight: 500;
+        }
+      }
+    }
+    
+    // TODO: Pages-specific styling
+    .pages-content {
+      // TODO: Prepare for future page data structures
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #666;
+        
+        .empty-icon {
+          font-size: 48px;
+          color: #ddd;
+          margin-bottom: 16px;
+        }
+        
+        .empty-title {
+          font-size: 16px;
+          margin-bottom: 8px;
+        }
+        
+        .empty-message {
+          font-size: 14px;
+        }
+      }
+    }
+    
+    // TODO: Tasks-specific styling
+    .tasks-content {
+      // TODO: Prepare for future task data structures
+      .task-card {
+        .priority-indicator {
+          // TODO: Priority-based styling (1=High, 2=Medium, 3=Low)
+          &.priority-high {
+            border-left: 4px solid @cyync-danger;
+          }
+          
+          &.priority-medium {
+            border-left: 4px solid @cyync-warning;
+          }
+          
+          &.priority-low {
+            border-left: 4px solid @cyync-success;
+          }
+        }
+        
+        .assignee-info {
+          // TODO: Task assignee display
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          
+          .assignee-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: @cyync-primary;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  
+  // TODO: Common components across all tabs
+  .status-badge {
+    // TODO: Dynamic status badges using API bg_color
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    
+    .status-icon {
+      font-size: 10px;
+    }
+  }
+  
+  .type-badge {
+    // TODO: Type badges with icons from API
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    
+    .type-icon {
+      font-size: 12px;
+    }
+  }
+  
+  .custom-tags {
+    // TODO: Custom tag styling with colors from API
+    .custom-tag {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-right: 4px;
+      margin-bottom: 4px;
+      display: inline-block;
+    }
+  }
+  
+  .related-counts {
+    // TODO: Related items display (comments, documents, etc.)
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    
+    .related-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #666;
+      
+      .related-icon {
+        font-size: 10px;
+      }
+      
+      .related-count {
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .timestamp-info {
+    // TODO: Created/updated timestamp styling
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #666;
+    
+    .timestamp-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      
+      .timestamp-icon {
+        font-size: 10px;
+      }
+    }
+  }
+  
+  // TODO: Metadata section (expandable)
+  .metadata-section {
+    margin-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 16px;
+    
+    .metadata-toggle {
+      background: none;
+      border: none;
+      color: @cyync-primary;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    
+    .metadata-content {
+      margin-top: 12px;
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      
+      .metadata-row {
+        display: flex;
+        margin-bottom: 4px;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .metadata-key {
+          min-width: 120px;
+          font-weight: 500;
+          color: #666;
+        }
+        
+        .metadata-value {
+          color: #333;
+        }
+      }
     }
   }
 }
 
-.risk-score {
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: 12px;
-
-  &.dark-red {
-    color: rgb(140, 4, 26);
-  }
-
-  &.red {
-    color: rgb(178, 47, 69);
-  }
-
-  &.yellow {
-    color: rgb(237, 187, 126);
-  }
-
-  &.green {
-    color: rgb(58, 154, 129);
-  }
-
-  &.gray {
-    color: rgb(150, 150, 150);
+// TODO: Responsive design considerations
+@media (max-width: 768px) {
+  .cyync-results {
+    .result-tabs {
+      flex-wrap: wrap;
+      
+      .tab-item {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+    }
+    
+    .tab-content .content-card {
+      padding: 12px;
+      
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .card-meta {
+        flex-direction: column;
+        gap: 6px;
+      }
+    }
   }
 }
 
-.p-title {
-  font-size: 12px;
-  color: @p-blue-grey;
-  font-weight: 700;
-}
+// TODO: Remove all Armis-specific styles
+// The following styles are from the original Armis integration and should be removed:
+/*
+div.results { ... }
+.result-container { ... } 
+.p-block { ... }
+.tags { ... }
+.external-link { ... }
+.expandable-title { ... }
+.risk-score { ... }
+.p-title { ... }
+*/
+
+// TODO: Add dark mode support (if CYYNC supports it)
+// TODO: Add print styles for reports
+// TODO: Add high contrast mode for accessibility
+// TODO: Add RTL support if needed
+// TODO: Optimize for screen readers with proper focus indicators
