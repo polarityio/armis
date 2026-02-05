@@ -1,0 +1,120 @@
+{
+  "searchResult": [
+    {
+      "id": "12345",
+      "name": "DESKTOP-FINANCE-01",
+      "riskLevel": 85,
+      "cveUid": null,
+      "tags": ["Finance", "Windows", "Critical-Asset"],
+      "site": {
+        "name": "New York Office",
+        "location": "USA"
+      },
+      "threatTags": ["Vulnerable-Services", "Outdated-Software"],
+      "cvssScore": null,
+      "avmRating": null,
+      "severity": null,
+      "description": null,
+      "numOfExploits": null,
+      "businessImpact": "High - Used for financial transactions",
+      "category": "Computer",
+      "type": "Workstation",
+      "manufacturer": "Dell",
+      "model": "OptiPlex 7090",
+      "operatingSystem": "Windows 10",
+      "operatingSystemVersion": "21H2",
+      "ipAddress": "192.168.1.50",
+      "macAddress": "00:1A:2B:3C:4D:5E",
+      "status": "Online",
+      "firstSeen": "2023-01-15T08:30:00Z",
+      "lastSeen": "2024-01-15T14:22:00Z",
+      "sensor": {
+        "name": "Access-Switch-Floor-3",
+        "type": "Network"
+      },
+      "dataSources": [
+        {
+          "name": "Active Directory",
+          "types": ["Directory Service"]
+        },
+        {
+          "name": "Network Scanner",
+          "types": ["Network Discovery"]
+        }
+      ]
+    },
+    {
+      "id": "67890",
+      "name": "john.doe@company.com",
+      "email": "john.doe@company.com",
+      "username": "jdoe",
+      "phone": "+1-555-0123",
+      "riskLevel": 45,
+      "cveUid": null,
+      "tags": ["Executive", "VIP"],
+      "site": {
+        "name": "Boston Office"
+      },
+      "threatTags": [],
+      "cvssScore": null,
+      "avmRating": null,
+      "severity": null,
+      "description": null,
+      "numOfExploits": null,
+      "businessImpact": "Medium - Executive access",
+      "properties": {
+        "title": "Chief Financial Officer",
+        "department": "Finance",
+        "domain": "company.com"
+      },
+      "status": "Active",
+      "firstSeen": "2022-06-10T09:00:00Z",
+      "lastSeen": "2024-01-15T16:45:00Z"
+    },
+    {
+      "id": "11223",
+      "name": "CVE-2024-0001",
+      "cveUid": "CVE-2024-0001",
+      "riskLevel": 100,
+      "tags": ["Critical", "Remote-Execution", "Zero-Day"],
+      "site": null,
+      "threatTags": ["RCE", "In-the-Wild", "Active-Exploitation"],
+      "cvssScore": 9.8,
+      "avmRating": "CRITICAL",
+      "severity": "Critical",
+      "description": "Critical remote code execution vulnerability in widely-used network service. Allows unauthenticated attackers to execute arbitrary code with system privileges. Active exploitation detected in the wild.",
+      "numOfExploits": 5,
+      "businessImpact": "Critical - Affects multiple critical systems",
+      "earlyWarningType": ["Pre-Publication", "Active-Exploitation"],
+      "firstSeen": "2024-01-10T00:00:00Z",
+      "lastSeen": "2024-01-15T18:30:00Z"
+    },
+    {
+      "id": "44556",
+      "name": "IOT-CAMERA-LOBBY",
+      "riskLevel": 65,
+      "cveUid": null,
+      "tags": ["IoT", "Camera", "Surveillance"],
+      "site": {
+        "name": "San Francisco Office",
+        "floor": "Lobby"
+      },
+      "threatTags": ["Weak-Credentials"],
+      "cvssScore": null,
+      "avmRating": null,
+      "severity": null,
+      "description": null,
+      "numOfExploits": null,
+      "businessImpact": "Low - Physical security device",
+      "category": "Camera",
+      "type": "IP Camera",
+      "manufacturer": "Hikvision",
+      "model": "DS-2CD2143G0-I",
+      "ipAddress": "10.20.30.40",
+      "macAddress": "AA:BB:CC:DD:EE:FF",
+      "status": "Online",
+      "firstSeen": "2023-08-20T12:00:00Z",
+      "lastSeen": "2024-01-15T17:10:00Z"
+    }
+  ]
+}

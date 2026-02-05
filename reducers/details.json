@@ -1,0 +1,76 @@
+{
+  "root": {
+    "path": "",
+    "on_null": "return_empty"
+  },
+  "pipeline": [
+    {
+      "op": "copy",
+      "from": "searchResult[].name",
+      "to": "reduced_results.names"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].riskLevel",
+      "to": "reduced_results.risk_levels"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].cveUid",
+      "to": "reduced_results.cve_identifiers"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].tags",
+      "to": "reduced_results.tags"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].site.name",
+      "to": "reduced_results.site_names"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].threatTags",
+      "to": "reduced_results.threat_tags"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].cvssScore",
+      "to": "reduced_results.cvss_scores"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].avmRating",
+      "to": "reduced_results.avm_ratings"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].severity",
+      "to": "reduced_results.severity_levels"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].description",
+      "to": "reduced_results.descriptions"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].numOfExploits",
+      "to": "reduced_results.exploit_counts"
+    },
+    {
+      "op": "copy",
+      "from": "searchResult[].businessImpact",
+      "to": "reduced_results.business_impacts"
+    },
+    {
+      "op": "prune",
+      "strategy": "empty_values",
+      "target": "reduced_results"
+    }
+  ],
+  "output": {
+    "result": "$working.reduced_results"
+  }
+}

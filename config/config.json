@@ -3,10 +3,20 @@
   "name": "Armis",
   "acronym": "AS",
   "description": "Search for Devices, Users, and Vulnerabilities in Armis",
-  "entityTypes": ["IPv4", "IPv6", "url", "domain", "cve", "email", "MAC"],
+  "entityTypes": [
+    "IPv4",
+    "IPv6",
+    "url",
+    "domain",
+    "cve",
+    "email",
+    "MAC"
+  ],
   "defaultColor": "light-blue",
   "onDemandOnly": true,
-  "styles": ["./client/styles.less"],
+  "styles": [
+    "./client/styles.less"
+  ],
   "block": {
     "component": {
       "file": "./client/block.js"
@@ -37,5 +47,10 @@
       "userCanEdit": false,
       "adminOnly": true
     }
-  ]
+  ],
+  "reducer": {
+    "details": {
+      "file": "./reducers/details.json"
+    }
+  }
 }
